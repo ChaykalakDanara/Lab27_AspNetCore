@@ -12,6 +12,17 @@ app.Use(async (context, next) =>
 
 app.Use(async (context, next) =>
 {
+    var key = context.Request.Query["key"];
+    if (key != "secret")
+    {
+        context.Re.StatusCode = 401;
+        return;
+    }
+    await next();
+});
+
+app.Use(async (context, next) =>
+{
     context.Response.Headers.Append("X-Powered-By", "ASP.NET Core Lab27");
     await next(context);
 });
